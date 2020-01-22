@@ -6,22 +6,46 @@ if (!token) {
   console.log('You must specify a token to use this example');
   return;
 }
-
 const web = new WebClient(token);
-
-web.channels
-  .list()
-  .then(res => {
-    console.log('Channels', res);
-  })
-  .catch(error => {
-    console.log(error);
-  });
-
 const conversationID = 'CSCE1HD9T';
-web.chat
-  .postMessage({ channel: conversationID, text: 'fuck yes' })
-  .then(res => {
-    console.log('Message sent: ', res.ts);
-  })
-  .catch(console.error);
+
+function slackSend(weeklyOrDaily, events) {
+  // console.log(events);
+
+  // const eventArr = Array.from(events);
+  // let wd = '';
+  // weeklyOrDaily is whether sending a weekly message or a daily message
+  // weekly = 0
+  // daily = 1
+  if (weeklyOrDaily === 0) {
+    const wd = 'this week.';
+    let slackMessage = `There are ${events.length} events ${wd} `;
+    events.forEach(event => {
+      slackMessage += `${event.title}\n${event.date}\n${event.url}`;
+    });
+    if (events.length !== 0) {
+      web.chat
+        .postMessage({ channel: conversationID, text: slackMessage })
+        .then(res => {
+          console.log('Message sent: ', res.ts);
+        })
+        .catch(console.error);
+    }
+  } else {
+    const wd = 'today';
+    let slackMessage = `There are ${events.length} events ${wd} `;
+    events.forEach(event => {
+      slackMessage += `${event.title}\n${event.date}\n${event.url}`;
+    });
+    if (events.length !== 0) {
+      web.chat
+        .postMessage({ channel: conversationID, text: slackMessage })
+        .then(res => {
+          console.log('Message sent: ', res.ts);
+        })
+        .catch(console.error);
+    }
+  }
+}
+
+exports.slackSend = slackSend;
