@@ -10,10 +10,7 @@ const web = new WebClient(token);
 const conversationID = 'CSCE1HD9T';
 
 function slackSend(weeklyOrDaily, events) {
-  // console.log(events);
-
-  // const eventArr = Array.from(events);
-  // let wd = '';
+  console.log(events);
   // weeklyOrDaily is whether sending a weekly message or a daily message
   // weekly = 0
   // daily = 1
@@ -21,7 +18,7 @@ function slackSend(weeklyOrDaily, events) {
     const wd = 'this week.';
     let slackMessage = `There are ${events.length} events ${wd}\n`;
     events.forEach(event => {
-      slackMessage += `${event.title}\n${event.date}\n${event.url}`;
+      slackMessage += `${event.title}\n${event.date}\n${event.url}\n`;
     });
     if (events.length !== 0) {
       web.chat
@@ -33,9 +30,9 @@ function slackSend(weeklyOrDaily, events) {
     }
   } else {
     const wd = 'today.\n';
-    let slackMessage = `There are ${events.length} events ${wd} `;
+    let slackMessage = `There are ${events.length} events ${wd} \n`;
     events.forEach(event => {
-      slackMessage += `${event.title}\n${event.date}\n${event.url}`;
+      slackMessage += `${event.title}\n${event.date}\n${event.url}\n`;
     });
     if (events.length !== 0) {
       web.chat
