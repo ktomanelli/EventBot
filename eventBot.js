@@ -19,7 +19,7 @@ function slackSend(weeklyOrDaily, events) {
   // daily = 1
   if (weeklyOrDaily === 0) {
     const wd = 'this week.';
-    let slackMessage = `There are ${events.length} events ${wd} `;
+    let slackMessage = `There are ${events.length} events ${wd}\n`;
     events.forEach(event => {
       slackMessage += `${event.title}\n${event.date}\n${event.url}`;
     });
@@ -32,7 +32,7 @@ function slackSend(weeklyOrDaily, events) {
         .catch(console.error);
     }
   } else {
-    const wd = 'today';
+    const wd = 'today.\n';
     let slackMessage = `There are ${events.length} events ${wd} `;
     events.forEach(event => {
       slackMessage += `${event.title}\n${event.date}\n${event.url}`;

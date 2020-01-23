@@ -30,7 +30,7 @@ async function getEvents(url, timeFrame) {
 const eventData = async () => {
   try {
     const myData = await getEvents(astoriaTech, 1);
-    eventBot.slackSend(0, myData);
+    eventBot.slackSend(1, myData);
   } catch (error) {
     console.error(error);
   }
