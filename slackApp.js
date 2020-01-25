@@ -15,9 +15,9 @@ const sources = [
   queensTech,
   designDriven,
 ];
-const events = [];
 async function getEvents(links, timeFrame) {
   try {
+    const events = [];
     let response = '';
     for (let x = 0; x < links.length; x += 1) {
       response = await axios.get(links[x]);
@@ -39,19 +39,24 @@ async function getEvents(links, timeFrame) {
 }
 
 function fixDate(dataDate) {
+  // unfinished, this would re arange date so it's easier to read
   dataDate.sort(function(a, b) {
     return a - b;
   });
-  // re-arranging the date so it doesnt suck
 }
 
-async function eventData(links) {
+async function eventData(links, int, wd) {
   try {
-    const myData = await getEvents(links, 7);
-    eventBot.slackSend(1, myData);
+    const myData = await getEvents(links, int);
+    eventBot.slackSend(wd, myData);
   } catch (error) {
     console.error(error);
   }
 }
 
-eventData(sources);
+setInterval(function() {
+  eventData(sources, 1, 1);
+}, 86400000);
+setInterval(function() {
+  eventData(sources, 7, 0);
+}, 604800000);
