@@ -18,11 +18,11 @@ function slackSend(weeklyOrDaily, events) {
     const wd = 'this week.';
     let slackMessage = `There are ${events.length} events ${wd}\n`;
     events.forEach(event => {
-      slackMessage += `${event.title}\n${event.date}\n${event.url}\n`;
+      slackMessage += `${event.title}\n${event.date}\n${event.url}\n `;
     });
     if (events.length !== 0) {
       web.chat
-        .postMessage({ channel: conversationID, text: slackMessage })
+        .postMessage({ channel: conversationID, text: `${slackMessage}\n` })
         .then(res => {
           console.log('Message sent: ', res.ts);
         })
@@ -36,7 +36,7 @@ function slackSend(weeklyOrDaily, events) {
     });
     if (events.length !== 0) {
       web.chat
-        .postMessage({ channel: conversationID, text: slackMessage })
+        .postMessage({ channel: conversationID, text: `${slackMessage}\n` })
         .then(res => {
           console.log('Message sent: ', res.ts);
         })
