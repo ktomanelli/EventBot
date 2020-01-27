@@ -34,17 +34,17 @@ async function getEvents(links, timeFrame) {
       if (links[x] === qed) {
         for (let i = 0; i < response.data.items.length; i += 1) {
           console.log(i);
-          if (
-            Date.parse(response.data.items[i].start.dateTime) <
-              Date.now() + timeFrame * 86400000 &&
-            Date.parse(response.data.items[i].start.dateTime) > Date.now()
-          ) {
-            events.unshift({
-              title: response.data.items[i].summary,
-              date: response.data.items[i].start.dateTime,
-              url: response.data.items[i].htmlLink,
-            });
-          }
+          // if (
+          //   Date.parse(response.data.items[i].start.dateTime) <
+          //     Date.now() + timeFrame * 86400000 &&
+          //   Date.parse(response.data.items[i].start.dateTime) > Date.now()
+          // ) {
+          events.unshift({
+            title: response.data.items[i].summary,
+            date: response.data.items[i].start.dateTime,
+            url: response.data.items[i].htmlLink,
+          });
+          // }
         }
       } else {
         for (let i = 0; i < response.data.length; i += 1) {

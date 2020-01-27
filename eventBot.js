@@ -18,7 +18,7 @@ function slackSend(weeklyOrDaily, events) {
     const wd = 'this week.';
     let slackMessage = `There are ${events.length} events ${wd}\n`;
     events.forEach(event => {
-      slackMessage += `${event.title}\n${event.date}\n${event.url}\n `;
+      slackMessage += `\n*${event.title}*\n${event.date}\n<${event.url}|Click Here for More Info!>\n `;
     });
     if (events.length !== 0) {
       web.chat
