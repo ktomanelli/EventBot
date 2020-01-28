@@ -95,11 +95,11 @@ async function eventData(links, int, wd) {
 setInterval(function() {
   const today = new Date(Date.now);
   if (today.getDay === 0) {
-    if (today.getHours === 9 && today.getMinutes === 0) {
+    if (today.getHours === 10 && today.getMinutes === 0) {
       eventData(sources, 7, 0);
       eventData(sources, 1, 1);
     }
-  } else if (today.getHours === 9 && today.getMinutes === 0) {
+  } else if (today.getHours === 10 && today.getMinutes === 0) {
     eventData(sources, 1, 1);
   }
 }, 60000);
