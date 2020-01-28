@@ -25,6 +25,22 @@ const sources = [
   qed,
 ];
 
+function fixDate(dataDate) {
+  const options = {
+    weekday: 'long',
+    year: 'numeric',
+    day: 'numeric',
+    month: 'long',
+  };
+  const dateStr = Date.parse(dataDate);
+  const dateObj = new Date(dateStr);
+  return dateObj.toLocaleDateString('en-US', options);
+
+  // unfinished, this would re arange date so it's easier to read
+  // dataDate.sort(function(a, b) {
+  //   return a - b;
+  // });
+}
 async function getEvents(links, timeFrame) {
   try {
     const events = [];
@@ -33,18 +49,18 @@ async function getEvents(links, timeFrame) {
       response = await axios.get(links[x]);
       if (links[x] === qed) {
         for (let i = 0; i < response.data.items.length; i += 1) {
-          console.log(i);
-          // if (
-          //   Date.parse(response.data.items[i].start.dateTime) <
-          //     Date.now() + timeFrame * 86400000 &&
-          //   Date.parse(response.data.items[i].start.dateTime) > Date.now()
-          // ) {
-          events.unshift({
-            title: response.data.items[i].summary,
-            date: response.data.items[i].start.dateTime,
-            url: response.data.items[i].htmlLink,
-          });
-          // }
+          if (
+            Date.parse(response.data.items[i].start.dateTime) <
+              Date.now() + timeFrame * 86400000 &&
+            Date.parse(response.data.items[i].start.dateTime) > Date.now()
+          ) {
+            console.log(response.data.items[i].start.dateTime);
+            events.unshift({
+              title: response.data.items[i].summary,
+              date: fixDate(response.data.items[i].start.dateTime),
+              url: response.data.items[i].htmlLink,
+            });
+          }
         }
       } else {
         for (let i = 0; i < response.data.length; i += 1) {
@@ -67,13 +83,6 @@ async function getEvents(links, timeFrame) {
   }
 }
 
-function fixDate(dataDate) {
-  // unfinished, this would re arange date so it's easier to read
-  dataDate.sort(function(a, b) {
-    return a - b;
-  });
-}
-
 async function eventData(links, int, wd) {
   try {
     const myData = await getEvents(links, int);
@@ -83,7 +92,6 @@ async function eventData(links, int, wd) {
   }
 }
 
-eventData(sources, 7, 0);
 // setInterval(function() {
 //   eventData(sources, 1, 1);
 // }, 86400000);
