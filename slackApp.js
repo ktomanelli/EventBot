@@ -92,9 +92,12 @@ async function eventData(links, int, wd) {
   }
 }
 
-// setInterval(function() {
-//   eventData(sources, 1, 1);
-// }, 86400000);
-// setInterval(function() {
-//   eventData(sources, 7, 0);
-// }, 604800000);
+setInterval(function() {
+  const today = new Date(Date.now);
+  if (today.getDay === 0) {
+    eventData(sources, 7, 0);
+    eventData(sources, 1, 1);
+  } else {
+    eventData(sources, 1, 1);
+  }
+}, 86400000);
