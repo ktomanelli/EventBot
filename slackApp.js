@@ -1,5 +1,5 @@
 const axios = require('axios').default;
-require('dotenv').config();
+// require('dotenv').config();
 
 const eventBot = require('./eventBot.js');
 
@@ -32,7 +32,10 @@ function fixDate(dataDate) {
     day: 'numeric',
     month: 'long',
   };
-  const dateStr = Date.parse(dataDate);
+  let dateStr = dataDate;
+  if (typeof dataDate !== 'number') {
+    dateStr = Date.parse(dataDate);
+  }
   const dateObj = new Date(dateStr);
   return dateObj.toLocaleDateString('en-US', options);
 
@@ -69,7 +72,7 @@ async function getEvents(links, timeFrame) {
           ) {
             events.unshift({
               title: response.data[i].name,
-              date: fixDate(response.data[i].local_date),
+              date: fixDate(response.data[i].time),
               url: response.data[i].link,
             });
           }
