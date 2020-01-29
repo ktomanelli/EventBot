@@ -54,7 +54,6 @@ async function getEvents(links, timeFrame) {
               Date.now() + timeFrame * 86400000 &&
             Date.parse(response.data.items[i].start.dateTime) > Date.now()
           ) {
-            console.log(response.data.items[i].start.dateTime);
             events.unshift({
               title: response.data.items[i].summary,
               date: fixDate(response.data.items[i].start.dateTime),
@@ -70,7 +69,7 @@ async function getEvents(links, timeFrame) {
           ) {
             events.unshift({
               title: response.data[i].name,
-              date: response.data[i].local_date,
+              date: fixDate(response.data[i].local_date),
               url: response.data[i].link,
             });
           }
@@ -93,13 +92,13 @@ async function eventData(links, int, wd) {
 }
 
 setInterval(function() {
-  const today = new Date(Date.now);
-  if (today.getDay === 0) {
-    if (today.getHours === 10 && today.getMinutes === 0) {
+  const today = new Date();
+  if (today.getDay() === 0) {
+    if (today.getHours() === 10 && today.getMinutes() === 38) {
       eventData(sources, 7, 0);
       eventData(sources, 1, 1);
     }
-  } else if (today.getHours === 10 && today.getMinutes === 0) {
+  } else if (today.getHours() === 10 && today.getMinutes() === 38) {
     eventData(sources, 1, 1);
   }
 }, 60000);
