@@ -7,7 +7,7 @@ if (!token) {
   return;
 }
 const web = new WebClient(token);
-const conversationID = 'CRMG7KBF1';
+const conversationID = 'CSCE1HD9T';
 // 'CSCE1HD9T'; // ID for test channel on TWD
 // 'CRMG7KBF1'; ID for AC Events channel
 
