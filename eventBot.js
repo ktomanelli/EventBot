@@ -7,9 +7,7 @@ if (!token) {
   return;
 }
 const web = new WebClient(token);
-const conversationID = 'CSCE1HD9T';
-// 'CSCE1HD9T'; // ID for test channel on TWD
-// 'CRMG7KBF1'; ID for AC Events channel
+const conversationID = process.env.CHANNEL_ID;
 
 function slackSend(weeklyOrDaily, events) {
   console.log(events);

@@ -1,5 +1,4 @@
 const axios = require('axios').default;
-// require('dotenv').config();
 
 const eventBot = require('./eventBot.js');
 
@@ -31,6 +30,8 @@ function fixDate(dataDate) {
     year: 'numeric',
     day: 'numeric',
     month: 'long',
+    hour: 'numeric',
+    minute: 'numeric',
   };
   let dateStr = dataDate;
   if (typeof dataDate !== 'number') {
@@ -93,6 +94,8 @@ async function eventData(links, int, wd) {
     console.error(error);
   }
 }
+
+// eventData(sources, 1, 1);
 
 setInterval(function() {
   const today = new Date();
