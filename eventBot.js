@@ -16,32 +16,57 @@ function slackSend(weeklyOrDaily, events) {
   // daily = 1
   if (weeklyOrDaily === 0) {
     const wd = 'this week.';
-    let slackMessage = `There are ${events.length} events ${wd}\n`;
-    events.forEach(event => {
-      slackMessage += `\n*${event.title}*\n${event.date}\n<${event.url}|Click Here for More Info!>\n `;
-    });
     if (events.length !== 0) {
       web.chat
-        .postMessage({ channel: conversationID, text: `${slackMessage}\n` })
+        .postMessage({
+          channel: conversationID,
+          text: `There are ${events.length} events ${wd}\n`,
+        })
         .then(res => {
           console.log('Message sent: ', res.ts);
         })
         .catch(console.error);
     }
+    setTimeout(function() {
+      events.forEach(event => {
+        const slackMessage = `\n*${event.title}*\n${event.date}\n<${event.url}|Click Here for More Info!>\n `;
+        if (events.length !== 0) {
+          web.chat
+            .postMessage({ channel: conversationID, text: `${slackMessage}\n` })
+            .then(res => {
+              console.log('Message sent: ', res.ts);
+            })
+            .catch(console.error);
+        }
+      });
+    }, 1000);
   } else {
     const wd = 'today.\n';
     let slackMessage = `There are ${events.length} events ${wd} \n`;
-    events.forEach(event => {
-      slackMessage += `\n*${event.title}*\n${event.date}\n<${event.url}|Click Here for More Info!>\n `;
-    });
     if (events.length !== 0) {
       web.chat
-        .postMessage({ channel: conversationID, text: `${slackMessage}\n` })
+        .postMessage({
+          channel: conversationID,
+          text: `There are ${events.length} events ${wd} \n`,
+        })
         .then(res => {
           console.log('Message sent: ', res.ts);
         })
         .catch(console.error);
     }
+    setTimeout(function() {
+      events.forEach(event => {
+        slackMessage = `\n*${event.title}*\n${event.date}\n<${event.url}|Click Here for More Info!>\n `;
+        if (events.length !== 0) {
+          web.chat
+            .postMessage({ channel: conversationID, text: `${slackMessage}\n` })
+            .then(res => {
+              console.log('Message sent: ', res.ts);
+            })
+            .catch(console.error);
+        }
+      });
+    }, 1000);
   }
 }
 

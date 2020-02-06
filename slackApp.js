@@ -13,8 +13,10 @@ const astoriaWriters = 'http://api.meetup.com/astoriawritersgroup/events';
 const astoriaTech = 'http://api.meetup.com/Astoria-Tech-Meetup/events';
 const queensTech = 'http://api.meetup.com/Queens-Tech-Night/events';
 const designDriven = 'http://api.meetup.com/Design-Driven-NYC/events/';
+const hardWired = 'https://www.meetup.com/Hardwired-NYC/events/';
 const qed = `https://www.googleapis.com/calendar/v3/calendars/b9cmt5r1ikc6ho8ego41l9dl5iijj2nf@import.calendar.google.com/events?key=${process.env.GOOGLE_KEY}&timeMin=${timeNow}&timeMax=${oneWeekFromNow}`;
 const typeThursdayNYC = '';
+const bookCulture = 'https://www.bookculture.com/event';
 const sources = [
   astoriaCreatives,
   astoriaWriters,
@@ -58,7 +60,8 @@ async function getEvents(links, timeFrame) {
               Date.now() + timeFrame * 86400000 &&
             Date.parse(response.data.items[i].start.dateTime) > Date.now()
           ) {
-            events.unshift({
+            events.push({
+              source: links[x],
               title: response.data.items[i].summary,
               date: fixDate(response.data.items[i].start.dateTime),
               url: response.data.items[i].htmlLink,
@@ -72,6 +75,7 @@ async function getEvents(links, timeFrame) {
             response.data[i].time > Date.now()
           ) {
             events.unshift({
+              source: links[x],
               title: response.data[i].name,
               date: fixDate(response.data[i].time),
               url: response.data[i].link,
@@ -95,16 +99,16 @@ async function eventData(links, int, wd) {
   }
 }
 
-// eventData(sources, 1, 1);
+eventData(sources, 1, 1);
 
-setInterval(function() {
-  const today = new Date();
-  if (today.getDay() === 0) {
-    if (today.getHours() === 10 && today.getMinutes() === 0) {
-      eventData(sources, 7, 0);
-      eventData(sources, 1, 1);
-    }
-  } else if (today.getHours() === 10 && today.getMinutes() === 0) {
-    eventData(sources, 1, 1);
-  }
-}, 60000);
+// setInterval(function() {
+//   const today = new Date();
+//   if (today.getDay() === 0) {
+//     if (today.getHours() === 10 && today.getMinutes() === 0) {
+//       eventData(sources, 7, 0);
+//       eventData(sources, 1, 1);
+//     }
+//   } else if (today.getHours() === 10 && today.getMinutes() === 1) {
+//     eventData(sources, 1, 1);
+//   }
+// }, 60000);
