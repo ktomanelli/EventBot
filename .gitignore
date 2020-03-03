@@ -1,4 +1,5 @@
 /.env
+/.DS_Store
+pics/.DS_Store
 ENV
 node_modules
-.DS_Store

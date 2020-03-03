@@ -45,6 +45,7 @@ async function sendWeekly(events) {
       grouped[event.source].events.push(event);
       return grouped;
     }, {});
+    console.log(`Here are the Grouped Events:  \n ${groupedEvents}`);
     for (let i = 0; i < Object.keys(groupedEvents).length; i += 1) {
       postContent.text = '';
       postPic.attachments = `[{
@@ -88,6 +89,7 @@ function slackSend(weeklyOrDaily, events) {
   // daily = 1
   let initMessage = '';
   /** ****WEEKLY***** */
+  console.log('Running Weekly slackSend()...');
   if (weeklyOrDaily === 0) {
     const wd = 'this week.';
     if (events.length !== 0) {
@@ -107,6 +109,7 @@ function slackSend(weeklyOrDaily, events) {
     }, 500);
   } else {
     /** ***DAILY**** */
+    console.log('Running Daily slackSend()...');
     const wd = 'today.\n';
     let slackMessage = `There are ${events.length} events ${wd} \n`;
     if (events.length !== 0) {

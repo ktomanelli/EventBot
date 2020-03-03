@@ -91,13 +91,16 @@ async function getEvents(links, timeFrame) {
             });
           }
         }
+        console.log(
+          `Here are the QED events being sent to slack: \n ${events}`
+        );
       } else {
         for (let i = 0; i < response.data.length; i += 1) {
           if (
             response.data[i].time < Date.now() + timeFrame * 86400000 &&
             response.data[i].time > Date.now()
           ) {
-            events.unshift({
+            events.push({
               source: sourceCheck,
               title: response.data[i].name,
               date: fixDate(response.data[i].time),
@@ -106,6 +109,9 @@ async function getEvents(links, timeFrame) {
             });
           }
         }
+        console.log(
+          `Here are the non-QED events being sent to slack: \n ${events}`
+        );
       }
     }
     return events;
@@ -116,7 +122,9 @@ async function getEvents(links, timeFrame) {
 
 async function eventData(links, int, wd) {
   try {
+    console.log(`Running eventData()...`);
     const myData = await getEvents(links, int);
+    console.log(`These are the events today: \n${myData}`);
     eventBot.slackSend(wd, myData);
   } catch (error) {
     console.error(error);
@@ -127,6 +135,7 @@ async function eventData(links, int, wd) {
 
 setInterval(function() {
   const today = new Date();
+  console.log(`The time is: ${today}`);
   if (today.getDay() === 0) {
     if (today.getHours() === 10 && today.getMinutes() === 0) {
       eventData(sources, 7, 0);
